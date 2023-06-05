@@ -1,18 +1,14 @@
-import time
-
-
-def chat_gpt():
+def chat_gpt(mensagem):
     import openai
 
-    openai.api_key = "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"
+    openai.api_key = "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"
 
     messages = []
     modelo = "gpt-3.5-turbo"
-    # messages.append({"role": "system", "content": system_msg})
 
-    message = input("O que gostaria de perguntar? ")
+    message = mensagem
 
-    while input != "sair":
+    while message:
         messages.append({"role": "user", "content": message})
 
         response = openai.ChatCompletion.create(
@@ -23,6 +19,26 @@ def chat_gpt():
         messages.append({"role": "assistant", "content": resposta})
 
         return resposta
+
+
+def timer(tempo):
+    import time
+    import sys
+
+    if tempo > 9:
+        print(f'Em {tempo} segundos o programa será fechado!\nObrigado por usar a AgroTerra! <3')
+        for i in range(0, tempo):
+            sys.stdout.write("\r{}".format(i + 1))
+            sys.stdout.flush()
+            time.sleep(1)
+
+    else:
+        print(f'Em {tempo} segundos voltaremos para o menu incial...')
+        for i in range(0, tempo):
+            sys.stdout.write("\r{}".format(i + 1))
+            sys.stdout.flush()
+            time.sleep(1)
+        print('')
 
 
 def validador_cpf(cpf):
@@ -55,7 +71,7 @@ def validador_cpf(cpf):
 
 def login():
     print('-' * 100)
-    print('Olá, bem vindo á IA da fome KKKKKKKKKKKK')
+    print('Olá, bem vindo á AgroTerra!')
     print('-' * 100)
 
     while True:
@@ -85,59 +101,159 @@ def login():
 
 
 def menu_inicial():
-    print('MENU INICIAL\n'
-          '[0] Sair\n'
+    print('-' * 100)
+    print((' ' * 30) + 'MENU INICIAL')
+    print('-' * 100)
+    print('[0] Sair\n'
           '[1] Cadastrar plantações\n'
           '[2] Listar plantações\n'
           '[3] Análise de safras\n'
-          '[4] Identificação de pragas\n')
+          '[4] Identificação de pragas')
+    print('-' * 100)
 
     while True:
-        escolha_usuario = input('Por favor escolha uma das opções acima: ')
+        escolha_usuario = input('Por favor escolha a opção desejada: ')
+        print('-' * 100)
 
         if escolha_usuario.isnumeric():
             if 5 > int(escolha_usuario) >= 0:
                 return escolha_usuario
 
             else:
-                print('-' * 100)
                 print('Escolha somente as opções listadas')
                 print('-' * 100)
 
         else:
-            print('-' * 100)
             print('Por favor utilize números na escolha')
             print('-' * 100)
 
 
 def cadastrar_plantacoes(identificacao):
     plantacoes = {
-        'plantio': input('Dígite o plantio desejado: '),
-        'hectares': input('Digite o tamanho da sua plantação em hectares: ')
+        'alimento': input('Dígite o alimento da plantação: '),
+        'hectares': input('Digite o tamanho do terreno em hectares: '),
+        'solo': input('Dígite o tipo de solo: ')
+
     }
 
     plantacoes_usuario[identificacao] = plantacoes
-
+    print('-' * 100)
     print('Plantação cadastrada com sucesso')
+    print('-' * 100)
+    timer(5)
 
 
 def listar_plantacoes():
-    quantidade_plantacoes = len(plantacoes_usuario)
+    while True:
+        if len(plantacoes_usuario) > 0:
+            print('-' * 100)
+            print(f'Olá, você tem {len(plantacoes_usuario)} plantações cadastradas!')
+            print('-' * 100)
+            print(plantacoes_usuario)
+            print('-' * 100)
+            return True
 
-    if quantidade_plantacoes > 0:
-        print(f'Olá, você tem {quantidade_plantacoes} plantações cadastradas!\n')
-        print(plantacoes_usuario)
+        else:
+            print('-' * 100)
+            print('Você ainda não possui nenhuma plantação cadastrada\nPor favor cadastre')
+            print('-' * 100)
+            return False
 
-    else:
-        print('Você ainda não possui nenhuma plantação cadastrada')
+
+def escolha_plantacao():
+    while True:
+        if not listar_plantacoes():
+            return False
+
+        else:
+            escolha = input('Digite o número de identificação da plantação que deseja escolher: ')
+
+            if escolha.isnumeric():
+                if int(escolha) > len(plantacoes_usuario):
+                    print('Número de identicação não encontrado!')
+                else:
+                    print(f'A plantação escolhida foi:\n'
+                          f'{plantacoes_usuario[escolha]}')
+                    return escolha
+            else:
+                print('Utilize números na hora da escolha!')
 
 
 def analise_safras():
-    print('Análise de safras')
+    escolha_analise = escolha_plantacao()
+
+    if not escolha_analise:
+        print('Não é possivel fazer analise sem ter uma plantação cadastrada')
+    else:
+        alimento_analise = plantacoes_usuario[escolha_analise]['alimento']
+        hectares_analise = plantacoes_usuario[escolha_analise]['hectares']
+        solo_analise = plantacoes_usuario[escolha_analise]['solo']
+
+        print('-' * 100)
+        print((' ' * 30) + 'TIPOS DE ANÁLISE')
+        print('-' * 100)
+        print('[1] Sobre quais cuidados ter com a safra\n'
+              '[2] Sobre como cultivar\n'
+              '[3] Melhor época para plantio e colhimento')
+        print('-' * 100)
+
+        while True:
+            tipo_analise = input('Qual tipo de análise deseja fazer?')
+            if tipo_analise.isnumeric():
+                if tipo_analise == '1':
+                    msg_analise = f'Possuo uma plantação de {alimento_analise},' \
+                                  f' com um terreno {solo_analise} de {hectares_analise} hectares,' \
+                                  f' quais os cuidados que devo ter com ela?'
+
+                    print('-' * 100)
+                    print('Aguarde alguns segundos...')
+                    print('-' * 100)
+                    print(chat_gpt(msg_analise))
+                    timer(5)
+                    break
+                elif tipo_analise == '2':
+                    msg_analise = f'Possuo uma plantação de {alimento_analise},' \
+                                  f' com um terreno {solo_analise} de {hectares_analise} hectares,' \
+                                  f' como cultivar melhor e mantê-lo?'
+                    print('-' * 100)
+                    print('Aguarde alguns segundos...')
+                    print('-' * 100)
+                    print(chat_gpt(msg_analise))
+                    timer(5)
+                    break
+                elif tipo_analise == '3':
+                    msg_analise = f'Possuo uma plantação de {alimento_analise},' \
+                                  f' com um terreno {solo_analise} de {hectares_analise} hectares,' \
+                                  f' qual a melhor epoca para colher e plantar?'
+                    print('-' * 100)
+                    print('Aguarde alguns segundos...')
+                    print('-' * 100)
+                    print(chat_gpt(msg_analise))
+                    timer(5)
+                    break
+                else:
+                    print('Escolha somente as opções listadas')
+                    print('-' * 100)
+
+            else:
+                print('Por favor utilize números na escolha')
+                print('-' * 100)
 
 
 def identificao_pragas():
-    print('Identificação de pragas')
+    escolha_pragas = escolha_plantacao()
+    alimento_pragas = plantacoes_usuario[escolha_pragas]['alimento']
+    hectares_pragas= plantacoes_usuario[escolha_pragas]['hectares']
+    solo_pragas = plantacoes_usuario[escolha_pragas]['solo']
+
+    msg_pragas = f'Possuo uma plantação de {alimento_pragas},' \
+                  f' com um terreno {solo_pragas} de {hectares_pragas} hectares,' \
+                  f' quais são as possiveis pragas e como lidar com elas?'
+    print('-' * 100)
+    print('Aguarde alguns segundos...')
+    print('-' * 100)
+    print(chat_gpt(msg_pragas))
+    timer(5)
 
 
 blocklist = [
@@ -155,24 +271,33 @@ blocklist = [
 
 plantacoes_usuario = {}
 
+
 if login():
     while True:
         menu = menu_inicial()
 
         if menu == '0':
+            print('-' * 100)
             print('Voce escolheu sair')
-            print('Em 10 segundos o programa será fechado')
-            time.sleep(10)
+            print('-' * 100)
+            timer(10)
             break
 
         elif menu == '1':
             id_plantacoes = (len(plantacoes_usuario) + 1)
             print(f'Sua plantação terá o seguinte número de identificação: [{id_plantacoes}]')
-            cadastrar_plantacoes(id_plantacoes)
+            cadastrar_plantacoes(str(id_plantacoes))
 
         elif menu == '2':
             listar_plantacoes()
+
+        elif menu == '3':
+            analise_safras()
+
+        elif menu == '4':
+            identificao_pragas()
 else:
+    print('-' * 100)
     print('Voce escolheu sair')
-    print('Em 10 segundos o programa será fechado')
-    time.sleep(10)
+    print('-' * 100)
+    timer(10)
