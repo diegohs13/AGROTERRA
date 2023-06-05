@@ -4,7 +4,7 @@ def chat_gpt(mensagem):
     # Por motivos de segurança, o usuário do código deve gerar sua propria api key
     # Para gerar sua api, cadastre-se no site: https://openai.com/ e gere sua key
 
-    openai.api_key = "Cole sua API KEY aqui"
+    openai.api_key = "COLE SUA API AQUI"
 
     messages = []
     modelo = "gpt-3.5-turbo"
@@ -47,35 +47,34 @@ def timer(tempo):
         print('')
 
 
-def validador_cpf(cpf):
-    corpo_cpf = cpf[:9]
-    digito_cpf = cpf[-2:]
-
-    calculo_1 = 0
-    calculo_2 = 0
-
-    multiplicacao = [10, 9, 8, 7, 6, 5, 4, 3, 2]
-
-    for i, j in zip(multiplicacao, corpo_cpf):
-        calculo_1 += i * int(j)
-
-    resto_1 = calculo_1 % 11
-
-    digito_1 = 0 if resto_1 < 2 else 11 - resto_1
-
-    corpo_cpf += str(digito_1)
-
-    for i, j in zip(multiplicacao, corpo_cpf[1:]):
-        calculo_2 += i * int(j)
-
-    resto_2 = calculo_2 % 11
-
-    digito_2 = 0 if resto_2 < 2 else 11 - resto_2
-
-    return digito_cpf == f'{digito_1}{digito_2}'
-
-
 def login():
+    def validador_cpf(cpf):
+        corpo_cpf = cpf[:9]
+        digito_cpf = cpf[-2:]
+
+        calculo_1 = 0
+        calculo_2 = 0
+
+        multiplicacao = [10, 9, 8, 7, 6, 5, 4, 3, 2]
+
+        for i, j in zip(multiplicacao, corpo_cpf):
+            calculo_1 += i * int(j)
+
+        resto_1 = calculo_1 % 11
+
+        digito_1 = 0 if resto_1 < 2 else 11 - resto_1
+
+        corpo_cpf += str(digito_1)
+
+        for i, j in zip(multiplicacao, corpo_cpf[1:]):
+            calculo_2 += i * int(j)
+
+        resto_2 = calculo_2 % 11
+
+        digito_2 = 0 if resto_2 < 2 else 11 - resto_2
+
+        return digito_cpf == f'{digito_1}{digito_2}'
+
     print('-' * 100)
     print('Olá, bem vindo á AgroTerra!')
     print('-' * 100)
@@ -225,11 +224,12 @@ def analise_safras():
         print('-' * 100)
         print('[1] Sobre quais cuidados ter com a safra\n'
               '[2] Sobre como cultivar\n'
-              '[3] Melhor época para plantio e colhimento')
+              '[3] Melhor época para plantio e colhimento\n'
+              '[4] Outras')
         print('-' * 100)
 
         while True:
-            tipo_analise = input('Qual tipo de análise deseja fazer?')
+            tipo_analise = input('Qual tipo de análise deseja fazer? ')
             if tipo_analise.isnumeric():
                 if tipo_analise == '1':
                     msg_analise = f'Possuo uma plantação de {alimento_analise},' \
@@ -240,6 +240,7 @@ def analise_safras():
                     print('Aguarde alguns segundos...')
                     print('-' * 100)
                     print(chat_gpt(msg_analise))
+                    print('-' * 100)
                     timer(5)
                     break
                 elif tipo_analise == '2':
@@ -250,6 +251,7 @@ def analise_safras():
                     print('Aguarde alguns segundos...')
                     print('-' * 100)
                     print(chat_gpt(msg_analise))
+                    print('-' * 100)
                     timer(5)
                     break
                 elif tipo_analise == '3':
@@ -260,8 +262,21 @@ def analise_safras():
                     print('Aguarde alguns segundos...')
                     print('-' * 100)
                     print(chat_gpt(msg_analise))
+                    print('-' * 100)
                     timer(5)
                     break
+                elif tipo_analise == '4':
+                    msg_analise = input(f'Lembrando de especificar que seu plantio é de {alimento_analise} e '
+                                        f'seu terreno é {solo_analise} de {hectares_analise} hectares, '
+                                        f'explique sua dúvida: ')
+                    print('-' * 100)
+                    print('Aguarde alguns segundos...')
+                    print('-' * 100)
+                    print(chat_gpt(msg_analise))
+                    print('-' * 100)
+                    timer(5)
+                    break
+
                 else:
                     print('Escolha somente as opções listadas')
                     print('-' * 100)
@@ -289,6 +304,7 @@ def identificao_pragas():
         print('Aguarde alguns segundos...')
         print('-' * 100)
         print(chat_gpt(msg_pragas))
+        print('-' * 100)
         timer(5)
 
 
