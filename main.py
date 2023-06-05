@@ -1,7 +1,10 @@
 def chat_gpt(mensagem):
     import openai
 
-    openai.api_key = "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"
+    # Por motivos de segurança, o usuário do código deve gerar sua propria api key
+    # Para gerar sua api, cadastre-se no site: https://openai.com/ e gere sua key
+
+    openai.api_key = "Cole sua API KEY aqui"
 
     messages = []
     modelo = "gpt-3.5-turbo"
@@ -26,7 +29,10 @@ def timer(tempo):
     import sys
 
     if tempo > 9:
-        print(f'Em {tempo} segundos o programa será fechado!\nObrigado por usar a AgroTerra! <3')
+        print(f'Em {tempo} segundos o programa será fechado!')
+        print('-' * 100)
+        print((' ' * 30) + 'Obrigado por usar a AgroTerra! <3')
+        print('-' * 100)
         for i in range(0, tempo):
             sys.stdout.write("\r{}".format(i + 1))
             sys.stdout.flush()
@@ -129,16 +135,41 @@ def menu_inicial():
 
 
 def cadastrar_plantacoes(identificacao):
+    def itens_plantacao(item):
+        if item == 'alimento':
+            while True:
+                alimento = input('Digite o alimento da plantação: ')
+                if alimento.isnumeric():
+                    print('Não utilize numeros na hora de cadastrar o alimento!')
+                else:
+                    return alimento
+
+        elif item == 'hectares':
+            while True:
+                hectares = input('Digite o tamanho do terreno em hectares: ')
+                if hectares.isnumeric():
+                    return hectares
+                else:
+                    print('Por favor utilize números na hora de cadastrar os hectares: ')
+
+        elif item == 'solo':
+            while True:
+                solo = input('Digite o tipo de solo: ')
+                if solo.isnumeric():
+                    print('Não utilize numeros na hora de cadastrar o solo!')
+                else:
+                    return solo
+
     plantacoes = {
-        'alimento': input('Dígite o alimento da plantação: '),
-        'hectares': input('Digite o tamanho do terreno em hectares: '),
-        'solo': input('Dígite o tipo de solo: ')
+        'alimento': itens_plantacao('alimento'),
+        'hectares': itens_plantacao('hectares'),
+        'solo': itens_plantacao('solo')
 
     }
 
     plantacoes_usuario[identificacao] = plantacoes
     print('-' * 100)
-    print('Plantação cadastrada com sucesso')
+    print((' ' * 30) + 'Plantação cadastrada com sucesso')
     print('-' * 100)
     timer(5)
 
@@ -242,18 +273,23 @@ def analise_safras():
 
 def identificao_pragas():
     escolha_pragas = escolha_plantacao()
-    alimento_pragas = plantacoes_usuario[escolha_pragas]['alimento']
-    hectares_pragas= plantacoes_usuario[escolha_pragas]['hectares']
-    solo_pragas = plantacoes_usuario[escolha_pragas]['solo']
 
-    msg_pragas = f'Possuo uma plantação de {alimento_pragas},' \
-                  f' com um terreno {solo_pragas} de {hectares_pragas} hectares,' \
-                  f' quais são as possiveis pragas e como lidar com elas?'
-    print('-' * 100)
-    print('Aguarde alguns segundos...')
-    print('-' * 100)
-    print(chat_gpt(msg_pragas))
-    timer(5)
+    if not escolha_pragas:
+        print('Não é possivel fazer a identificação de pragas sem ter uma plantação cadastrada')
+    else:
+        alimento_pragas = plantacoes_usuario[escolha_pragas]['alimento']
+        hectares_pragas = plantacoes_usuario[escolha_pragas]['hectares']
+        solo_pragas = plantacoes_usuario[escolha_pragas]['solo']
+
+        msg_pragas = f'Possuo uma plantação de {alimento_pragas},' \
+                     f' com um terreno {solo_pragas} de {hectares_pragas} hectares, ' \
+                     f'quais são as possiveis pragas e como lidar com elas?'
+
+        print('-' * 100)
+        print('Aguarde alguns segundos...')
+        print('-' * 100)
+        print(chat_gpt(msg_pragas))
+        timer(5)
 
 
 blocklist = [
