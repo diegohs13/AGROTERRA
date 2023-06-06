@@ -1,10 +1,9 @@
 def chat_gpt(mensagem):
     import openai
 
-    # Por motivos de segurança, o usuário do código deve gerar sua propria api key
-    # Para gerar sua api, cadastre-se no site: https://openai.com/ e gere sua key
-
-    openai.api_key = "COLE SUA API AQUI"
+    # Cole sua API abaixo.
+    # Para obter sua API siga as instruções do README
+    openai.api_key = "Cole sua API key aqui"
 
     messages = []
     modelo = "gpt-3.5-turbo"
