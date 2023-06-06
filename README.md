@@ -31,4 +31,4 @@
 
 ##### Uma vez efetuado o login no programa, utilizando o CPF como identificação, o usuário é orientado a cadastrar suas plantações, podendo cadastrar quantas desejar, a fim de desfrutar das funcionalidades previamente mencionadas. Assim, é possível realizar inúmeras operações enquanto mantém a sessão ativa no programa.
 
-###### _OBS: A OpenAI e o GitHub bloqueiam as API keys salvas. Por isso, o usuário do código deve gerar sua própria API key e utilizar no código. Para gerar sua API, cadastre-se no site: https://openai.com/ e siga os seguintes passos no site: Developers -> API reference -> Personal -> View API keys -> Create new secret key. Após isso, cole a API key na função chat_gpt_
+###### _OBS: A OpenAI e o GitHub bloqueiam as API keys salvas. Por isso, o usuário do código deve gerar sua própria API key e utilizar no código. Para gerar sua API, cadastre-se no site: https://openai.com/ e siga os seguintes passos no site: Developers -> API reference -> Personal -> View API keys -> Create new secret key. Após isso, cole a API key na função chat_gpt._
