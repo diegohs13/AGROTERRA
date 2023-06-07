@@ -8,7 +8,7 @@
 
 ###### 550208 - Vicenzo Guardabassi Fukumura
 
-###### 552365 - Douglas Dias Santos
+###### 552365 - Douglas de Jesus Santos
 
 ###### 97510 - Mariana Bastos Esteves
 
